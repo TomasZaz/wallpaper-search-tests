@@ -20,13 +20,13 @@ npx playwright install
 
 ```bash
 export BASE_URL=https://www.example.com
-export SEARCH_KEYWORD=nature
+export SEARCH_KEYWORD=keyword
 ```
 
 Or run tests with environment variables inline:
 
 ```bash
-BASE_URL=https://www.example.com SEARCH_KEYWORD=nature npm test
+BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
 ```
 
 ## Running Tests
@@ -38,8 +38,8 @@ npm test
 
 Or with BASE_URL and SEARCH_KEYWORD:
 ```bash
-BASE_URL=https://www.example.com SEARCH_KEYWORD=nature npm test
-BASE_URL=https://www.example.com SEARCH_KEYWORD=ocean npm test
+BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
+BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
 ```
 
 ## Test Structure
@@ -68,8 +68,7 @@ Tests are located in the `tests/` directory:
 4. **Verify download** - Tests that downloaded wallpaper file exists and is valid
    - Downloads a free wallpaper
    - Verifies file exists on filesystem
-   - Validates file size and image format
-   - Checks image file signatures (JPEG, PNG, GIF, WEBP)
+   - Validates file size (> 0 bytes)
 
 ## Test Configuration
 
@@ -98,23 +97,27 @@ Test configuration is in `playwright.config.ts`. Settings:
 
 ### Helper Functions
 
-The `SearchHelpers` class provides the following methods:
+The `SearchHelpers` class provides simple, straightforward methods:
 
-- `searchByKeyword(keyword: string)` - Performs a search operation
+- `searchByKeyword(keyword: string)` - Performs a search operation using the search input
 - `getWallpaperElements()` - Retrieves wallpaper elements from the page
 - `isFreeWallpaper(element)` - Determines if a wallpaper is free or premium
-- `downloadFreeWallpaper(element)` - Downloads a free wallpaper
-- `verifyDownload(filePath)` - Verifies downloaded file is valid
+- `downloadFreeWallpaper(element)` - Downloads a free wallpaper using Playwright's simple download pattern
+- `verifyDownload(filePath)` - Verifies downloaded file exists and has content
 - `waitForSearchResults()` - Waits for search results to load
 
 ### Test Features
 
-- **Robust selectors**: Tests use multiple selector strategies to find elements
-- **Error handling**: Comprehensive error handling with fallback strategies
+- **Simple Playwright patterns**: Tests use straightforward Playwright APIs (getByRole, waitForEvent, etc.)
+- **Download pattern**: Uses the standard Playwright download pattern:
+  ```typescript
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download' }).click();
+  const download = await downloadPromise;
+  ```
 - **File verification**: Validates downloaded files by checking:
   - File existence
   - File size (> 0 bytes)
-  - Image file signatures (JPEG, PNG, GIF, WEBP)
 - **Cleanup**: Automatically cleans up downloaded files after each test
 
 ## Notes
