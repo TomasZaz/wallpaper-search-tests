@@ -175,17 +175,13 @@ export class SearchHelpers {
       // Continue even if timeout
     }
     
-    // Look for search input - try multiple possible selectors
+    // Look for search input - using actual element structure
     const searchSelectors = [
-      'input[type="search"]',
-      'input[placeholder*="Search"]',
-      'input[placeholder*="search"]',
-      'input[name="search"]',
-      'input[aria-label*="Search"]',
-      'input[aria-label*="search"]',
-      '[data-testid*="search"] input',
-      '.search input',
-      '#search',
+      '#search',                           // ID selector (most specific and reliable)
+      'input[name="search"]',              // Name attribute
+      'input[placeholder*="Search"]',       // Placeholder contains "Search"
+      'input.Input_input__hSvn7',         // Specific class name
+      'input[type="text"][name="search"]', // Type and name combination (fallback)
     ];
 
     let searchInput: Locator | null = null;
@@ -484,23 +480,15 @@ export class SearchHelpers {
       // Continue even if not ready
     }
     
-    // Look for download button/link on detail page
-    const downloadSelectors = [
-      'a[href*="download"]',
-      'a[href*=".jpg"]',
-      'a[href*=".png"]',
-      'a[href*=".jpeg"]',
-      'button[aria-label*="download" i]',
-      'button[aria-label*="Download"]',
-      '[data-action*="download" i]',
-      'button:has-text("Download")',
-      'a:has-text("Download")',
-      '[data-testid*="download" i]',
-      'button.download',
-      'a.download',
-      'button[title*="download" i]',
-      'a[title*="download" i]',
-    ];
+     // Look for download button/link on detail page
+     const downloadSelectors = [
+       'button:has-text("Download")',                    // Most specific - matches actual element with text
+       'button[data-appearance="primary"]:has-text("Download")', // More specific with data attribute
+       'button.Button_button__UqezC:has-text("Download")', // With class name
+       'button[data-size="large"]:has-text("Download")', // With data-size attribute
+       'a[href*="download"]',                             // Fallback for link-based downloads
+       'button[aria-label*="download" i]',               // Fallback for aria-label
+     ];
 
     // Wait for download button to appear (it might appear after ad is closed)
     let downloadButton: Locator | null = null;
