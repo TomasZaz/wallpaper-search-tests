@@ -12,7 +12,12 @@ export class SearchHelpers {
    */
   async dismissCookieConsent(): Promise<void> {
     try {
-      await this.page.getByRole('button', { name: /Accept All Cookies|Reject All Cookies/i }).click({ timeout: 2000 });
+      // Wait for cookie banner to appear and click accept
+      const acceptButton = this.page.getByRole('button', { name: /Accept/i });
+      await acceptButton.waitFor({ state: 'visible', timeout: 3000 });
+      await acceptButton.click();
+      // Wait for banner to disappear
+      await acceptButton.waitFor({ state: 'hidden', timeout: 2000 }).catch(() => {});
     } catch {
       // No popup or already dismissed
     }
@@ -88,6 +93,9 @@ export class SearchHelpers {
 
     // Navigate to wallpaper page
     await this.page.goto(href);
+    
+    // Dismiss cookie banner (it blocks the download button)
+    await this.dismissCookieConsent();
 
     // Download pattern
     const downloadPromise = this.page.waitForEvent('download');
