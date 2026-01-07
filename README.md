@@ -83,6 +83,9 @@ Test configuration is in `playwright.config.ts`. Settings:
 
 ```
 .
+├── .github/
+│   └── workflows/
+│       └── test.yml              # GitHub Actions workflow
 ├── tests/
 │   ├── search.spec.ts           # Test specifications
 │   └── helpers/
@@ -120,6 +123,35 @@ The `SearchHelpers` class provides simple, straightforward methods:
   - File size (> 0 bytes)
 - **Cleanup**: Automatically cleans up downloaded files after each test
 
+## GitHub Actions CI/CD
+
+This repository includes a GitHub Actions workflow that runs tests manually on demand.
+
+### Manual Run with Input Parameters
+
+To run tests manually from GitHub UI:
+1. Go to your repository → Actions tab
+2. Select "Run Test Suite" workflow
+3. Click "Run workflow"
+4. Enter the required parameters:
+   - **website**: The base URL (e.g., `https://www.example.com`)
+   - **search_keyword**: The search keyword (e.g., `nature`)
+5. Click "Run workflow"
+
+### Workflow Details
+
+- **Runners**: Uses GitHub-hosted `ubuntu-latest` runners (free for public repositories)
+- **Triggers**: Manual only (workflow_dispatch)
+- **Artifacts**: Uploads test reports and failure screenshots automatically
+
+### Workflow File
+
+The workflow is located at `.github/workflows/test.yml` and includes:
+- Node.js 20 setup with npm caching
+- Playwright browser installation (Chromium only for faster CI)
+- Test execution with environment variables from inputs or secrets
+- Automatic artifact upload for test reports and screenshots
+
 ## Notes
 
 - Tests run against the production website (configured via BASE_URL)
@@ -127,4 +159,5 @@ The `SearchHelpers` class provides simple, straightforward methods:
 - Tests automatically clean up downloaded files after execution
 - Screenshots are saved on test failures
 - Videos are retained on test failures for debugging
+- GitHub Actions provides free runners for public repositories
 
