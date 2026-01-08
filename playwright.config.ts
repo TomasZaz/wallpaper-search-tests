@@ -14,6 +14,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI, // Prevent test.only() from running in CI (ensures all tests run)
   retries: process.env.CI ? 2 : 0, // Retry failed tests 2 times in CI, 0 times locally
   workers: process.env.CI ? 1 : undefined, // Use 1 worker in CI, auto-detect locally (runs tests in parallel)
+  timeout: process.env.CI ? 60000 : 30000, // Increase timeout to 60s in CI (slower runners), 30s locally
   reporter: 'html', // Generate HTML test report
   use: {
     baseURL: process.env.BASE_URL, // Base URL for all tests (required environment variable)
@@ -21,6 +22,7 @@ export default defineConfig({
     screenshot: 'only-on-failure', // Take screenshots only when tests fail
     video: 'retain-on-failure', // Record video only for failed tests
     acceptDownloads: true, // Allow browser to save downloaded files to the filesystem
+    actionTimeout: process.env.CI ? 30000 : 10000, // Increase action timeout in CI (slower runners)
   },
 
   projects: [
