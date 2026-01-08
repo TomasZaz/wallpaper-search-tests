@@ -131,7 +131,7 @@ This repository includes a GitHub Actions workflow that runs tests manually on d
 
 To run tests manually from GitHub UI:
 1. Go to repository → Actions tab
-2. Select "Run Test Suite" workflow
+2. Select "Run Wallpaper Search Test Suite" workflow
 3. Click "Run workflow"
 4. Enter the required parameters:
    - **website**: The base URL (e.g., `https://www.example.net`)
