@@ -22,23 +22,11 @@ npx playwright install
 export BASE_URL=https://www.example.com
 export SEARCH_KEYWORD=keyword
 ```
-
-Or run tests with environment variables inline:
-
-```bash
-BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
-```
-
 ## Running Tests
 
-### Run all tests (headless)
+with BASE_URL and SEARCH_KEYWORD:
 ```bash
-npm test
-```
-
-Or with BASE_URL and SEARCH_KEYWORD:
-```bash
-BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
+BASE_URL=https://www.example.net SEARCH_KEYWORD=keyword npm test
 ```
 
 ### Run specific test suite
@@ -46,7 +34,7 @@ BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
 Test suites are defined in `suits.yml`. To run a specific suite:
 
 ```bash
-BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm run test:suite search
+BASE_URL=https://www.example.net SEARCH_KEYWORD=keyword npm run test:suite search
 ```
 
 Available suites are defined in `suits.yml`.
@@ -123,7 +111,6 @@ The `SearchHelpers` class provides simple, straightforward methods:
 
 ### Test Features
 
-- **Simple Playwright patterns**: Tests use straightforward Playwright APIs (getByRole, waitForEvent, etc.)
 - **Download pattern**: Uses the standard Playwright download pattern:
   ```typescript
   const downloadPromise = page.waitForEvent('download');
@@ -148,7 +135,7 @@ To run tests manually from GitHub UI:
 4. Enter the required parameters:
    - **website**: The base URL (e.g., `https://www.example.net`)
    - **search_keyword**: The search keyword (e.g., `nature`)
-   - **test_suite**: (Optional) Select a test suite to run (default: runs all tests)
+   - **test_suite**: (Optional) enter a test suite name to run
 5. Click "Run workflow"
 
 ### Workflow Details
