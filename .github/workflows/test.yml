@@ -1,4 +1,4 @@
-name: Run Test Suite
+name: Run Wallpaper Search Test Suite
 
 on:
   workflow_dispatch: # Manual triggering from GitHub UI only
@@ -32,12 +32,11 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
-        # Only install Chromium to save time and resources
         # Use --with-deps to install system dependencies
 
       - name: Run Playwright tests
         env:
-          # Use workflow inputs (required for manual runs)
+          # Use workflow inputs
           BASE_URL: ${{ github.event.inputs.website }}
           SEARCH_KEYWORD: ${{ github.event.inputs.search_keyword }}
         run: npm test
