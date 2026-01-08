@@ -97,13 +97,13 @@ export class SearchHelpers {
     // Dismiss cookie banner
     await this.dismissCookieConsent();
 
-    // Set up download promise before clicking (with extended timeout for banner wait)
+    // Set up download promise before clicking
     const downloadPromise = this.page.waitForEvent('download', { timeout: 60000 });
     
     // Click download button
     await this.page.getByRole('button', { name: 'Download' }).click();
     
-    // Wait for "preparing download" banner to appear and disappear (takes ~15 seconds)
+    // Wait for "preparing download" banner to appear and disappear
     try {
       // Look for text containing "preparing"
       const preparingBanner = this.page.getByText(/preparing/i);

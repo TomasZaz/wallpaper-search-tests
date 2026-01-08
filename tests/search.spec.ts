@@ -9,7 +9,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
   test.beforeEach(async ({ page }) => {
     const helpers = new SearchHelpers(page);
     await page.goto('/ringtones-and-wallpapers');
-    // Wait for page content to appear (wait for any content element)
+    // Wait for page content to appear
     try {
       await Promise.race([
         page.waitForSelector('body', { timeout: 10000 }),
@@ -76,7 +76,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
     // Verify search results are displayed
     expect(wallpaperElements.length).toBeGreaterThan(0);
 
-    // Verify that results are related to the search (check page title or URL)
+    // Verify that results are related to the search
     const currentUrl = page.url();
     // URL should contain "find" or "search" or the search keyword
     expect(
@@ -115,7 +115,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
     // Verify we can identify at least some wallpapers
     expect(freeCount + premiumCount).toBeGreaterThan(0);
 
-    // Verify we found at least one free wallpaper (for download test)
+    // Verify we found at least one free wallpaper
     expect(freeCount).toBeGreaterThan(0);
   });
 
@@ -140,12 +140,11 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
     const maxWaitTime = 5000; // 5 seconds max
     const startTime = Date.now();
 
-    // Wait for file to exist (condition-based, not fixed delay)
     while (Date.now() - startTime < maxWaitTime) {
       if (fs.existsSync(downloadedFilePath)) {
-        break; // File exists, exit loop immediately
+        break;
       }
-      // Short delay before next check (minimal wait)
+      // Short delay before next check
       await page.waitForTimeout(100);
     }
 
@@ -175,7 +174,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
     expect(downloadedFilePath).toBeTruthy();
     expect(typeof downloadedFilePath).toBe('string');
 
-    // Wait for file to exist (with timeout)
+    // Wait for file to exist
     const maxWaitTime = 5000; // 5 seconds max
     const startTime = Date.now();
     let fileExists = false;
@@ -197,7 +196,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
     const isValid = await helpers.verifyDownload(downloadedFilePath);
     expect(isValid).toBe(true);
 
-    // Additional verification: check file size (if file still exists)
+    // Additional verification: check file size
     try {
       if (fs.existsSync(downloadedFilePath)) {
         const stats = fs.statSync(downloadedFilePath);
