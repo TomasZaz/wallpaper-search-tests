@@ -14,13 +14,13 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
       await Promise.race([
         page.waitForSelector('body', { timeout: 10000 }),
         page.waitForLoadState('domcontentloaded', { timeout: 10000 }),
-      ])
+      ]);
     } catch {
       // Continue even if timeout
     }
     // Dismiss cookie consent popup if present
     await helpers.dismissCookieConsent();
-  })
+  });
 
   test.afterEach(async ({ }, testInfo) => {
     // Clean up downloaded files
@@ -35,7 +35,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
       }
       downloadedFiles.delete(testInfo.testId);
     }
-  })
+  });
 
   /**
    * Helper function to perform search and get wallpaper elements
@@ -87,7 +87,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
 
     // Take a screenshot for verification
     await page.screenshot({ path: 'test-results/search-results.png', fullPage: false });
-  })
+  });
 
   test('should identify free vs premium wallpapers', async ({ page }) => {
     const { helpers, wallpaperElements } = await searchAndGetWallpapers(page);
@@ -117,7 +117,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
 
     // Verify we found at least one free wallpaper (for download test)
     expect(freeCount).toBeGreaterThan(0);
-  })
+  });
 
   test('should download free wallpaper', async ({ page }, testInfo) => {
     const { helpers, wallpaperElements } = await searchAndGetWallpapers(page);
@@ -155,7 +155,7 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
     // Verify file has content
     const stats = fs.statSync(downloadedFilePath);
     expect(stats.size).toBeGreaterThan(0);
-  })
+  });
 
   test('should verify wallpaper was successfully downloaded', async ({ page }, testInfo) => {
     const { helpers, wallpaperElements } = await searchAndGetWallpapers(page);
@@ -206,6 +206,6 @@ test.describe('Wallpaper Search by Keyword Functionality Tests', () => {
       }
     } catch {
     }
-  })
-})
+  });
+});
 

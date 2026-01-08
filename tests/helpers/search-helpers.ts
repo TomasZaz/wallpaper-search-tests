@@ -94,17 +94,41 @@ export class SearchHelpers {
     // Navigate to wallpaper page
     await this.page.goto(href);
     
-    // Dismiss cookie banner (it blocks the download button)
+    // Dismiss cookie banner
     await this.dismissCookieConsent();
 
-    // Download pattern
-    const downloadPromise = this.page.waitForEvent('download');
+    // Set up download promise before clicking (with extended timeout for banner wait)
+    const downloadPromise = this.page.waitForEvent('download', { timeout: 60000 });
+    
+    // Click download button
     await this.page.getByRole('button', { name: 'Download' }).click();
+    
+    // Wait for "preparing download" banner to appear and disappear (takes ~15 seconds)
+    try {
+      // Look for text containing "preparing"
+      const preparingBanner = this.page.getByText(/preparing/i);
+      
+      // Wait for banner to appear (if it appears)
+      await preparingBanner.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {
+      });
+      
+      // Wait for banner to disappear
+      await preparingBanner.waitFor({ state: 'hidden', timeout: 25000 }).catch(() => {
+      });
+      
+      // Wait a bit more after banner disappears to ensure download starts
+      await this.page.waitForTimeout(7000);
+    } catch {
+      // If cannot find the banner, wait a bit for the download to start
+      await this.page.waitForTimeout(2000);
+    }
+
+    // Wait for download to complete
     const download = await downloadPromise;
 
     const downloadPath = await download.path();
     if (!downloadPath) {
-      throw new Error('Download path is null');
+      throw new Error('Download failed');
     }
 
     return downloadPath;
