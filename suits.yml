@@ -1,0 +1,8 @@
+# Test Suites Configuration
+
+suites:
+  search:
+    description: "Wallpaper search functionality tests"
+    testFiles:
+      - "tests/search.spec.ts"
+

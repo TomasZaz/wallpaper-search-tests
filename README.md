@@ -39,8 +39,17 @@ npm test
 Or with BASE_URL and SEARCH_KEYWORD:
 ```bash
 BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
-BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm test
 ```
+
+### Run specific test suite
+
+Test suites are defined in `suits.yml`. To run a specific suite:
+
+```bash
+BASE_URL=https://www.example.com SEARCH_KEYWORD=keyword npm run test:suite search
+```
+
+Available suites are defined in `suits.yml`.
 
 ## Test Structure
 
@@ -86,11 +95,14 @@ Test configuration is in `playwright.config.ts`. Settings:
 ├── .github/
 │   └── workflows/
 │       └── test.yml              # GitHub Actions workflow
+├── scripts/
+│   └── run-suite.js              # Script to run specific test suites
 ├── tests/
 │   ├── search.spec.ts           # Test specifications
 │   └── helpers/
 │       └── search-helpers.ts     # Helper functions for tests
 ├── playwright.config.ts          # Playwright configuration
+├── suits.yml                     # Test suites configuration
 ├── package.json                  # Dependencies and scripts
 ├── downloads/                    # Downloaded wallpapers (gitignored)
 └── README.md                     # This file
@@ -136,6 +148,7 @@ To run tests manually from GitHub UI:
 4. Enter the required parameters:
    - **website**: The base URL (e.g., `https://www.example.net`)
    - **search_keyword**: The search keyword (e.g., `nature`)
+   - **test_suite**: (Optional) Select a test suite to run (default: runs all tests)
 5. Click "Run workflow"
 
 ### Workflow Details

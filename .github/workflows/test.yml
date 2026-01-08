@@ -11,6 +11,13 @@ on:
         description: 'Search keyword to use in tests'
         required: true
         type: string
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        type: choice
+        default: 'search'
+        options:
+          - 'search'
 
 jobs:
   test:
@@ -39,7 +46,12 @@ jobs:
           # Use workflow inputs
           BASE_URL: ${{ github.event.inputs.website }}
           SEARCH_KEYWORD: ${{ github.event.inputs.search_keyword }}
-        run: npm test
+        run: |
+          if [ -n "${{ github.event.inputs.test_suite }}" ]; then
+            npm run test:suite ${{ github.event.inputs.test_suite }}
+          else
+            npm test
+          fi
 
       - name: Upload test results
         if: always() # Upload even if tests fail
