@@ -1,4 +1,4 @@
-name: Run Wallpaper Search Test Suite
+name: Run Wallpaper Search Tests
 
 on:
   workflow_dispatch: # Manual triggering from GitHub UI only
@@ -12,12 +12,10 @@ on:
         required: true
         type: string
       test_suite:
-        description: 'Test suite to run'
+        description: 'Test suite to run (optional)'
         required: false
-        type: choice
-        default: 'search'
-        options:
-          - 'search'
+        type: string
+        default: ''
 
 jobs:
   test:

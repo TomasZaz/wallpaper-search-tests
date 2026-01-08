@@ -1,4 +1,4 @@
-# Wallpaper Search Test Suite
+# Wallpaper Search Tests
 
 Automated test suite for wallpaper search functionality using Playwright.
 
@@ -143,7 +143,7 @@ This repository includes a GitHub Actions workflow that runs tests manually on d
 
 To run tests manually from GitHub UI:
 1. Go to repository → Actions tab
-2. Select "Run Wallpaper Search Test Suite" workflow
+2. Select "Wallpaper Search Tests" workflow
 3. Click "Run workflow"
 4. Enter the required parameters:
    - **website**: The base URL (e.g., `https://www.example.net`)
